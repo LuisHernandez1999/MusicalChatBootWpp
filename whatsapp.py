@@ -11,11 +11,9 @@ from config import NUMERO_WHATSAPP
 from youtube import get_youtube_playlist
 
 def localizar_elemento(navegador, xpath):
-    """Localiza um elemento usando XPath e retorna o WebElement."""
     return navegador.find_element(By.XPATH, xpath)
 
 def enviar_whatsapp_web(mensagem, numero):
-    """Envia uma mensagem inicial pelo WhatsApp Web."""
     chrome_driver_path = r'C:\Users\Usuario\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe'
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--start-maximized")
@@ -55,7 +53,6 @@ def enviar_whatsapp_web(mensagem, numero):
         navegador.quit()
 
 def identificar_vibe(mensagem_texto):
-    """Identifica a vibe do usuário com base em palavras-chave e variações."""
     mensagem_texto = mensagem_texto.lower()
     if any(v in mensagem_texto for v in ["triste", "deprimido", "desanimado", "muito triste", "bad", "mal"]):
         return "triste"
@@ -69,7 +66,7 @@ def identificar_vibe(mensagem_texto):
         return None
 
 def esperar_resposta_e_enviar_playlist(navegador, wait, input_box_xpath):
-    """Espera pela resposta do usuário e envia uma playlist com base na vibe identificada."""
+
     try:
         ultima_mensagem_xpath = '//*[@id="main"]/div[3]/div/div[2]/div[3]/div[last()]/div/div/div[1]/div[1]/div[1]/div/div[1]/div/span[1]/span'
         vibe = None
@@ -124,7 +121,7 @@ def esperar_resposta_e_enviar_playlist(navegador, wait, input_box_xpath):
         print(f"Erro geral: {e}")
 
 def esperar_resposta_para_nova_playlist(navegador, wait, input_box_xpath, vibe):
-    """Espera pela resposta do usuário e envia uma nova playlist ou encerra a interação."""
+
     resposta_dada = False  # Flag para verificar se já enviou uma nova playlist
     ultima_mensagem_texto = ""
     while True:
@@ -144,7 +141,7 @@ def esperar_resposta_para_nova_playlist(navegador, wait, input_box_xpath, vibe):
                 print("Mensagem de despedida enviada.")
                 break
             elif "sim" in mensagem_texto:
-                if not resposta_dada:  # Verifica se já enviou uma nova playlist
+                if not resposta_dada: 
                     nova_playlist = get_youtube_playlist(vibe)
                     for video in nova_playlist:
                         try:
@@ -165,13 +162,13 @@ def esperar_resposta_para_nova_playlist(navegador, wait, input_box_xpath, vibe):
                     resposta_dada = True  # Marca que a nova playlist foi enviada
                     print("Mensagem de nova playlist enviada.")
                 else:
-                    # Se já enviou uma nova playlist, encerra a interação
+
                     input_box = localizar_elemento(navegador, input_box_xpath)
                     action = ActionChains(navegador)
                     action.move_to_element(input_box).click().send_keys("Valeu por usar o Baby Joe! Até a próxima! 👋").send_keys(Keys.RETURN).perform()
                     print("Mensagem de despedida enviada.")
                     break
-            time.sleep(5)  # Aguarda antes de verificar novas mensagens
+            time.sleep(5)  
         except TimeoutException:
             continue
 
