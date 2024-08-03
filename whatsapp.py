@@ -106,7 +106,7 @@ def esperar_resposta_e_enviar_playlist(navegador, wait, input_box_xpath):
             input_box = localizar_elemento(navegador, input_box_xpath)
             action = ActionChains(navegador)
             action.move_to_element(input_box).click().send_keys("Aproveite a playlist! Curta essas músicas e relaxe! 🎶😎").send_keys(Keys.RETURN).perform()
-            time.sleep(5)  # Espera antes de enviar a próxima mensagem
+            time.sleep(5) 
             input_box = localizar_elemento(navegador, input_box_xpath)
             action = ActionChains(navegador)
             action.move_to_element(input_box).click().send_keys("Quer mais músicas? Deixe-me saber!").send_keys(Keys.RETURN).perform()
@@ -122,7 +122,7 @@ def esperar_resposta_e_enviar_playlist(navegador, wait, input_box_xpath):
 
 def esperar_resposta_para_nova_playlist(navegador, wait, input_box_xpath, vibe):
 
-    resposta_dada = False  # Flag para verificar se já enviou uma nova playlist
+    resposta_dada = False  
     ultima_mensagem_texto = ""
     while True:
         try:
